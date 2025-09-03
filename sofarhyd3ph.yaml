@@ -499,3 +499,21 @@ sensor:
     filters:
       - multiply: 0.1
 
+  # Derived metric: Load + Output - PCC
+  - platform: template
+    id: custom_power_metric
+    name: "Home Power Usage"
+    unit_of_measurement: "kW"
+    device_class: power
+    state_class: measurement
+    accuracy_decimals: 2
+    update_interval: 10s
+    lambda: |-
+      if (isnan(id(activepower_load_total).state) ||
+          isnan(id(activepower_output_total).state) ||
+          isnan(id(activepower_pcc_total).state)) {
+        return NAN;
+      }
+      return id(activepower_load_total).state
+           + id(activepower_output_total).state
+           - id(activepower_pcc_total).state;

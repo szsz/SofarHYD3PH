@@ -6,14 +6,19 @@ Home Assistant integration of Sofar HYD 3‑phase inverters via RS‑485 Modbus 
 - Protocol: Modbus RTU over UART1 (9600 8N1, default slave address 1)
 - Ready for: Power Flow dashboards and Energy Dashboard
 
+
 ## Contents
 
 - `sofarhyd3ph.yaml` – ESPHome device configuration exposing inverter sensors over Modbus
 - `homeassistantenergyoverview.yaml` – Example Lovelace view using power‑flow‑card‑plus and graphs
-- `guide/` – Screenshots for setup
-  - `guide/adddevice.png`
-  - `guide/Rawconfig.png`
-  - `guide/createdashboard.png`
+- `guide/` – Setup and Energy dashboard screenshots
+  - `guide/pysicalsetup.png` – Physical wiring reference (ESP32 RS‑485 to inverter)
+  - `guide/adddevice.png` – ESPHome add device flow
+  - `guide/Rawconfig.png` – Paste YAML via Raw configuration editor
+  - `guide/createdashboard.png` – Example Lovelace dashboard created
+  - `guide/energypanelsetup.png` – Energy panel configuration in Home Assistant
+  - `guide/energypanelview.png` – Example Energy panel view (after sensors added)
+  - `guide/energyoverview.png` – At‑a‑glance Energy overview example
 - `LICENSE`
 
 ## Features
@@ -44,6 +49,9 @@ Home Assistant integration of Sofar HYD 3‑phase inverters via RS‑485 Modbus 
   - Shutdown disable: GPIO19
   - UART1 TX/RX: TX=22, RX=21
 
+Reference wiring:
+![Physical wiring reference](guide/pysicalsetup.png)
+
 2) Flash with ESPHome
 - Open ESPHome (Add‑on or local) and add a new device called "SofarHYD3PH".
 - Copy the content of `sofarhyd3ph.yaml` into the new device.
@@ -66,12 +74,34 @@ SofarHYD3PHOTA: "generate-a-strong-ota-password"
 - Install the custom card "Power Flow Card Plus" via HACS:
   - HACS → Frontend → Search "power-flow-card-plus" → Install → Reload resources.
 - Create a new dashboard/view and paste the YAML from `homeassistantenergyoverview.yaml` into a Raw configuration editor for that view.
+- Example steps:
+  - Add device in ESPHome:  
+    ![ESPHome Add Device](guide/adddevice.png)
+  - Paste dashboard YAML via Raw config:  
+    ![ESPHome Raw Config](guide/Rawconfig.png)
+  - Resulting example dashboard:  
+    ![Dashboard Created](guide/createdashboard.png)
 
-## Screenshots
+## Energy Dashboard setup (Home Assistant)
 
-![ESPHome Add Device](guide/adddevice.png)
-![ESPHome Raw Config](guide/Rawconfig.png)
-![Dashboard Created](guide/createdashboard.png)
+To populate the Energy panel with correct totals, add the “Total” energy sensors (state_class: total_increasing) from this project.
+
+1) Open Settings → Dashboards → Energy.  
+2) Add the following as applicable:
+- Solar production: PV Generation Total
+- Home consumption: Load Consumption Total
+- Grid consumption (from grid): Energy Purchase Total
+- Return to grid (to grid): Energy Selling Total
+- Battery charge: Battery Charge Total
+- Battery discharge: Battery Discharge Total
+
+![Energy panel setup](guide/energypanelsetup.png)
+
+After saving, the Energy view will start aggregating and display charts over time:
+![Energy panel view](guide/energypanelview.png)
+
+For a quick at‑a‑glance card, you can also build an Energy overview with the example dashboard:
+![Energy overview example](guide/energyoverview.png)
 
 ## Entities exposed
 
@@ -134,9 +164,13 @@ You can change these in `wifi: ap:` in `sofarhyd3ph.yaml`.
 ├─ sofarhyd3ph.yaml
 ├─ homeassistantenergyoverview.yaml
 ├─ guide/
+│  ├─ pysicalsetup.png
 │  ├─ adddevice.png
+│  ├─ Rawconfig.png
 │  ├─ createdashboard.png
-│  └─ Rawconfig.png
+│  ├─ energypanelsetup.png
+│  ├─ energypanelview.png
+│  └─ energyoverview.png
 ├─ LICENSE
 └─ README.md
 ```
