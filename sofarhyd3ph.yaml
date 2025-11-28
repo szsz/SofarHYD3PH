@@ -93,7 +93,14 @@ modbus_controller:
     command_throttle: 200ms
     # flow_control_pin: 17   # uncomment if you get timeouts
 
+text_sensor:
+  - platform: version
+    name: "ESPHome Version"
+
 sensor:
+  - platform: uptime
+    name: "Uptime Seconds"
+    
   # 05C4 Power_PV_Total (U16, 0.1 kW)
   - platform: modbus_controller
     modbus_controller_id: sofar
@@ -107,7 +114,14 @@ sensor:
     device_class: power
     state_class: measurement
     filters:
-      - multiply: 0.1
+      - lambda: |-
+          if (isnan(x)) {
+            return NAN;
+          }
+          if (x > 1e9f || x < -1e9f) {
+            return NAN;
+          }
+          return x * 0.1f;
 
   # 0504 ActivePower_Load_Total (I16, 0.01 kW)
   - platform: modbus_controller
@@ -122,7 +136,14 @@ sensor:
     device_class: power
     state_class: measurement
     filters:
-      - multiply: 0.01
+      - lambda: |-
+          if (isnan(x)) {
+            return NAN;
+          }
+          if (x > 1e9f || x < -1e9f) {
+            return NAN;
+          }
+          return x * 0.01f;
 
   # 0505 ReactivePower_Load_Total (I16, 0.01 kW)
   - platform: modbus_controller
@@ -137,7 +158,14 @@ sensor:
     device_class: power
     state_class: measurement
     filters:
-      - multiply: 0.01
+      - lambda: |-
+          if (isnan(x)) {
+            return NAN;
+          }
+          if (x > 1e9f || x < -1e9f) {
+            return NAN;
+          }
+          return x * 0.01f;
 
   # 0506 ApparentPower_Load_Total (I16, 0.01 kW)
   - platform: modbus_controller
@@ -152,7 +180,14 @@ sensor:
     device_class: power
     state_class: measurement
     filters:
-      - multiply: 0.01
+      - lambda: |-
+          if (isnan(x)) {
+            return NAN;
+          }
+          if (x > 1e9f || x < -1e9f) {
+            return NAN;
+          }
+          return x * 0.01f;
 
   # 0507 Frequency_Output (U16, 0.01 Hz)
   - platform: modbus_controller
@@ -167,7 +202,14 @@ sensor:
     device_class: frequency
     state_class: measurement
     filters:
-      - multiply: 0.01
+      - lambda: |-
+          if (isnan(x)) {
+            return NAN;
+          }
+          if (x > 1e9f || x < -1e9f) {
+            return NAN;
+          }
+          return x * 0.01f;
 
   # 0484 Frequency_Grid (U16, 0.01 Hz)
   - platform: modbus_controller
@@ -182,7 +224,14 @@ sensor:
     device_class: frequency
     state_class: measurement
     filters:
-      - multiply: 0.01
+      - lambda: |-
+          if (isnan(x)) {
+            return NAN;
+          }
+          if (x > 1e9f || x < -1e9f) {
+            return NAN;
+          }
+          return x * 0.01f;
 
   # 0485 ActivePower_Output_Total (I16, 0.01 kW)
   - platform: modbus_controller
@@ -197,7 +246,14 @@ sensor:
     device_class: power
     state_class: measurement
     filters:
-      - multiply: 0.01
+      - lambda: |-
+          if (isnan(x)) {
+            return NAN;
+          }
+          if (x > 1e9f || x < -1e9f) {
+            return NAN;
+          }
+          return x * 0.01f;
 
   # 0486 ReactivePower_Output_Total (I16, 0.01 kW)
   - platform: modbus_controller
@@ -212,7 +268,14 @@ sensor:
     device_class: power
     state_class: measurement
     filters:
-      - multiply: 0.01
+      - lambda: |-
+          if (isnan(x)) {
+            return NAN;
+          }
+          if (x > 1e9f || x < -1e9f) {
+            return NAN;
+          }
+          return x * 0.01f;
 
   # 0487 ApparentPower_Output_Total (I16, 0.01 kW)
   - platform: modbus_controller
@@ -227,7 +290,14 @@ sensor:
     device_class: power
     state_class: measurement
     filters:
-      - multiply: 0.01
+      - lambda: |-
+          if (isnan(x)) {
+            return NAN;
+          }
+          if (x > 1e9f || x < -1e9f) {
+            return NAN;
+          }
+          return x * 0.01f;
 
   # 0488 ActivePower_PCC_Total (I16, 0.01 kW)
   - platform: modbus_controller
@@ -242,7 +312,14 @@ sensor:
     device_class: power
     state_class: measurement
     filters:
-      - multiply: 0.01
+      - lambda: |-
+          if (isnan(x)) {
+            return NAN;
+          }
+          if (x > 1e9f || x < -1e9f) {
+            return NAN;
+          }
+          return x * 0.01f;
 
   # 0489 ReactivePower_PCC_Total (I16, 0.01 kW)
   - platform: modbus_controller
@@ -257,7 +334,14 @@ sensor:
     device_class: power
     state_class: measurement
     filters:
-      - multiply: 0.01
+      - lambda: |-
+          if (isnan(x)) {
+            return NAN;
+          }
+          if (x > 1e9f || x < -1e9f) {
+            return NAN;
+          }
+          return x * 0.01f;
 
   # 048A ApparentPower_PCC_Total (I16, 0.01 kW)
   - platform: modbus_controller
@@ -272,8 +356,14 @@ sensor:
     device_class: power
     state_class: measurement
     filters:
-      - multiply: 0.01
-
+      - lambda: |-
+          if (isnan(x)) {
+            return NAN;
+          }
+          if (x > 1e9f || x < -1e9f) {
+            return NAN;
+          }
+          return x * 0.01f;
 
   # --- Power / battery instantaneous values ---
   # 0667 Power_Bat_Total (I16, 0.1 kW)
@@ -289,7 +379,14 @@ sensor:
     device_class: power
     state_class: measurement
     filters:
-      - multiply: 0.1
+      - lambda: |-
+          if (isnan(x)) {
+            return NAN;
+          }
+          if (x > 1e9f || x < -1e9f) {
+            return NAN;
+          }
+          return x * 0.1f;
 
   # 0668 SOC_Bat_Average (U16, %)
   - platform: modbus_controller
@@ -332,7 +429,14 @@ sensor:
     device_class: energy
     state_class: total_increasing
     filters:
-      - multiply: 0.01
+      - lambda: |-
+          if (isnan(x)) {
+            return NAN;
+          }
+          if (x > 1e9f || x < -1e9f) {
+            return NAN;
+          }
+          return x * 0.01f;
 
   # 0686–0687 PV_Generation_Total (U32, 0.1 kWh)
   - platform: modbus_controller
@@ -347,7 +451,14 @@ sensor:
     device_class: energy
     state_class: total_increasing
     filters:
-      - multiply: 0.1
+      - lambda: |-
+          if (isnan(x)) {
+            return NAN;
+          }
+          if (x > 1e9f || x < -1e9f) {
+            return NAN;
+          }
+          return x * 0.1f;
 
   # 0688–0689 Load_Consumption_Today (U32, 0.01 kWh)
   - platform: modbus_controller
@@ -362,7 +473,14 @@ sensor:
     device_class: energy
     state_class: total_increasing
     filters:
-      - multiply: 0.01
+      - lambda: |-
+          if (isnan(x)) {
+            return NAN;
+          }
+          if (x > 1e9f || x < -1e9f) {
+            return NAN;
+          }
+          return x * 0.01f;
 
   # 068A–068B Load_Consumption_Total (U32, 0.1 kWh)
   - platform: modbus_controller
@@ -377,7 +495,14 @@ sensor:
     device_class: energy
     state_class: total_increasing
     filters:
-      - multiply: 0.1
+      - lambda: |-
+          if (isnan(x)) {
+            return NAN;
+          }
+          if (x > 1e9f || x < -1e9f) {
+            return NAN;
+          }
+          return x * 0.1f;
 
   # 068C–068D Energy_Purchase_Today (U32, 0.01 kWh)
   - platform: modbus_controller
@@ -392,7 +517,14 @@ sensor:
     device_class: energy
     state_class: total_increasing
     filters:
-      - multiply: 0.01
+      - lambda: |-
+          if (isnan(x)) {
+            return NAN;
+          }
+          if (x > 1e9f || x < -1e9f) {
+            return NAN;
+          }
+          return x * 0.01f;
 
   # 068E–068F Energy_Purchase_Total (U32, 0.1 kWh)
   - platform: modbus_controller
@@ -407,7 +539,14 @@ sensor:
     device_class: energy
     state_class: total_increasing
     filters:
-      - multiply: 0.1
+      - lambda: |-
+          if (isnan(x)) {
+            return NAN;
+          }
+          if (x > 1e9f || x < -1e9f) {
+            return NAN;
+          }
+          return x * 0.1f;
 
   # 0690–0691 Energy_Selling_Today (U32, 0.01 kWh)
   - platform: modbus_controller
@@ -422,7 +561,14 @@ sensor:
     device_class: energy
     state_class: total_increasing
     filters:
-      - multiply: 0.01
+      - lambda: |-
+          if (isnan(x)) {
+            return NAN;
+          }
+          if (x > 1e9f || x < -1e9f) {
+            return NAN;
+          }
+          return x * 0.01f;
 
   # 0692–0693 Energy_Selling_Total (U32, 0.1 kWh)
   - platform: modbus_controller
@@ -437,7 +583,14 @@ sensor:
     device_class: energy
     state_class: total_increasing
     filters:
-      - multiply: 0.1
+      - lambda: |-
+          if (isnan(x)) {
+            return NAN;
+          }
+          if (x > 1e9f || x < -1e9f) {
+            return NAN;
+          }
+          return x * 0.1f;
 
   # 0694–0695 Bat_Charge_Today (U32, 0.01 kWh)
   - platform: modbus_controller
@@ -452,7 +605,14 @@ sensor:
     device_class: energy
     state_class: total_increasing
     filters:
-      - multiply: 0.01
+      - lambda: |-
+          if (isnan(x)) {
+            return NAN;
+          }
+          if (x > 1e9f || x < -1e9f) {
+            return NAN;
+          }
+          return x * 0.01f;
 
   # 0696–0697 Bat_Charge_Total (U32, 0.1 kWh)
   - platform: modbus_controller
@@ -467,7 +627,14 @@ sensor:
     device_class: energy
     state_class: total_increasing
     filters:
-      - multiply: 0.1
+      - lambda: |-
+          if (isnan(x)) {
+            return NAN;
+          }
+          if (x > 1e9f || x < -1e9f) {
+            return NAN;
+          }
+          return x * 0.1f;
 
   # 0698–0699 Bat_Discharge_Today (U32, 0.01 kWh)
   - platform: modbus_controller
@@ -482,7 +649,14 @@ sensor:
     device_class: energy
     state_class: total_increasing
     filters:
-      - multiply: 0.01
+      - lambda: |-
+          if (isnan(x)) {
+            return NAN;
+          }
+          if (x > 1e9f || x < -1e9f) {
+            return NAN;
+          }
+          return x * 0.01f;
 
   # 069A–069B Bat_Discharge_Total (U32, 0.1 kWh)
   - platform: modbus_controller
@@ -497,7 +671,14 @@ sensor:
     device_class: energy
     state_class: total_increasing
     filters:
-      - multiply: 0.1
+      - lambda: |-
+          if (isnan(x)) {
+            return NAN;
+          }
+          if (x > 1e9f || x < -1e9f) {
+            return NAN;
+          }
+          return x * 0.1f;
 
   # Derived metric: Load + Output - PCC
   - platform: template
