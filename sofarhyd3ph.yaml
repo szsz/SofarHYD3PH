@@ -399,7 +399,14 @@ sensor:
     unit_of_measurement: "%"
     accuracy_decimals: 0
     device_class: battery
-    state_class: measurement
+    state_class: measurement    
+    filters:
+        - lambda: |-
+            // 0xFFFF (65535) indicates invalid value
+            if (x == 0xFFFF) {
+            return NAN;
+            }
+            return x;
 
   # 0669 SOH_Bat (U16, %)
   - platform: modbus_controller
@@ -412,7 +419,14 @@ sensor:
     unit_of_measurement: "%"
     accuracy_decimals: 0
     device_class: battery
-    state_class: measurement
+    state_class: measurement 
+    filters:
+        - lambda: |-
+            // 0xFFFF (65535) indicates invalid value
+            if (x == 0xFFFF) {
+            return NAN;
+            }
+            return x;
 
   # --- Energy totals / daily counters ---
   # These should be device_class: energy, state_class: total_increasing
