@@ -19,14 +19,7 @@ esphome:
   name: sofarhyd3ph
   friendly_name: SofarHYD3PH
 
-# Constants for data validation
-  globals:
-    - id: max_power_kw
-      type: float
-      initial_value: "30.0"
-    - id: max_energy_kwh
-      type: float
-      initial_value: "10000000.0"
+
 
 esp32:
   board: esp32dev
