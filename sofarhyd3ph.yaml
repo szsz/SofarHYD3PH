@@ -383,7 +383,7 @@ sensor:
           if (isnan(x)) {
             return NAN;
           }
-          if (x > 1e9f || x < -1e9f) {
+          if (x > 1e2f || x < -1e2f) {
             return NAN;
           }
           return x * 0.1f;
