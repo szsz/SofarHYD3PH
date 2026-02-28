@@ -19,6 +19,15 @@ esphome:
   name: sofarhyd3ph
   friendly_name: SofarHYD3PH
 
+# Constants for data validation
+  globals:
+    - id: max_power_kw
+      type: float
+      initial_value: "30.0"
+    - id: max_energy_kwh
+      type: float
+      initial_value: "10000000.0"
+
 esp32:
   board: esp32dev
   framework:
@@ -115,10 +124,7 @@ sensor:
     state_class: measurement
     filters:
       - lambda: |-
-          if (isnan(x)) {
-            return NAN;
-          }
-          if (x > 1e9f || x < -1e9f) {
+          if (x > 300 || x < 0) {
             return NAN;
           }
           return x * 0.1f;
@@ -137,10 +143,7 @@ sensor:
     state_class: measurement
     filters:
       - lambda: |-
-          if (isnan(x)) {
-            return NAN;
-          }
-          if (x > 1e9f || x < -1e9f) {
+          if (x > 3000 || x < -3000) {
             return NAN;
           }
           return x * 0.01f;
@@ -159,10 +162,7 @@ sensor:
     state_class: measurement
     filters:
       - lambda: |-
-          if (isnan(x)) {
-            return NAN;
-          }
-          if (x > 1e9f || x < -1e9f) {
+          if (x > 3000 || x < -3000) {
             return NAN;
           }
           return x * 0.01f;
@@ -181,10 +181,7 @@ sensor:
     state_class: measurement
     filters:
       - lambda: |-
-          if (isnan(x)) {
-            return NAN;
-          }
-          if (x > 1e9f || x < -1e9f) {
+          if (x > 3000 || x < -3000) {
             return NAN;
           }
           return x * 0.01f;
@@ -203,12 +200,7 @@ sensor:
     state_class: measurement
     filters:
       - lambda: |-
-          if (isnan(x)) {
-            return NAN;
-          }
-          if (x > 1e9f || x < -1e9f) {
-            return NAN;
-          }
+          // No max limit for frequency, pass through
           return x * 0.01f;
 
   # 0484 Frequency_Grid (U16, 0.01 Hz)
@@ -225,12 +217,7 @@ sensor:
     state_class: measurement
     filters:
       - lambda: |-
-          if (isnan(x)) {
-            return NAN;
-          }
-          if (x > 1e9f || x < -1e9f) {
-            return NAN;
-          }
+          // No max limit for frequency, pass through
           return x * 0.01f;
 
   # 0485 ActivePower_Output_Total (I16, 0.01 kW)
@@ -247,10 +234,7 @@ sensor:
     state_class: measurement
     filters:
       - lambda: |-
-          if (isnan(x)) {
-            return NAN;
-          }
-          if (x > 1e9f || x < -1e9f) {
+          if (x > 3000 || x < -3000) {
             return NAN;
           }
           return x * 0.01f;
@@ -269,10 +253,7 @@ sensor:
     state_class: measurement
     filters:
       - lambda: |-
-          if (isnan(x)) {
-            return NAN;
-          }
-          if (x > 1e9f || x < -1e9f) {
+          if (x > 3000 || x < -3000) {
             return NAN;
           }
           return x * 0.01f;
@@ -291,10 +272,7 @@ sensor:
     state_class: measurement
     filters:
       - lambda: |-
-          if (isnan(x)) {
-            return NAN;
-          }
-          if (x > 1e9f || x < -1e9f) {
+          if (x > 3000 || x < -3000) {
             return NAN;
           }
           return x * 0.01f;
@@ -313,10 +291,7 @@ sensor:
     state_class: measurement
     filters:
       - lambda: |-
-          if (isnan(x)) {
-            return NAN;
-          }
-          if (x > 1e9f || x < -1e9f) {
+          if (x > 3000 || x < -3000) {
             return NAN;
           }
           return x * 0.01f;
@@ -335,10 +310,7 @@ sensor:
     state_class: measurement
     filters:
       - lambda: |-
-          if (isnan(x)) {
-            return NAN;
-          }
-          if (x > 1e9f || x < -1e9f) {
+          if (x > 3000 || x < -3000) {
             return NAN;
           }
           return x * 0.01f;
@@ -357,10 +329,7 @@ sensor:
     state_class: measurement
     filters:
       - lambda: |-
-          if (isnan(x)) {
-            return NAN;
-          }
-          if (x > 1e9f || x < -1e9f) {
+          if (x > 3000 || x < -3000) {
             return NAN;
           }
           return x * 0.01f;
@@ -380,10 +349,7 @@ sensor:
     state_class: measurement
     filters:
       - lambda: |-
-          if (isnan(x)) {
-            return NAN;
-          }
-          if (x > 1e2f || x < -1e2f) {
+          if (x > 300 || x < -300) {
             return NAN;
           }
           return x * 0.1f;
@@ -444,10 +410,7 @@ sensor:
     state_class: total_increasing
     filters:
       - lambda: |-
-          if (isnan(x)) {
-            return NAN;
-          }
-          if (x > 1e9f || x < -1e9f) {
+          if (x > 1000000000) {
             return NAN;
           }
           return x * 0.01f;
@@ -466,10 +429,7 @@ sensor:
     state_class: total_increasing
     filters:
       - lambda: |-
-          if (isnan(x)) {
-            return NAN;
-          }
-          if (x > 1e9f || x < -1e9f) {
+          if (x > 100000000) {
             return NAN;
           }
           return x * 0.1f;
@@ -488,10 +448,7 @@ sensor:
     state_class: total_increasing
     filters:
       - lambda: |-
-          if (isnan(x)) {
-            return NAN;
-          }
-          if (x > 1e9f || x < -1e9f) {
+          if (x > 1000000000) {
             return NAN;
           }
           return x * 0.01f;
@@ -510,10 +467,7 @@ sensor:
     state_class: total_increasing
     filters:
       - lambda: |-
-          if (isnan(x)) {
-            return NAN;
-          }
-          if (x > 1e9f || x < -1e9f) {
+          if (x > 100000000) {
             return NAN;
           }
           return x * 0.1f;
@@ -532,10 +486,7 @@ sensor:
     state_class: total_increasing
     filters:
       - lambda: |-
-          if (isnan(x)) {
-            return NAN;
-          }
-          if (x > 1e9f || x < -1e9f) {
+          if (x > 1000000000) {
             return NAN;
           }
           return x * 0.01f;
@@ -554,10 +505,7 @@ sensor:
     state_class: total_increasing
     filters:
       - lambda: |-
-          if (isnan(x)) {
-            return NAN;
-          }
-          if (x > 1e9f || x < -1e9f) {
+          if (x > 100000000) {
             return NAN;
           }
           return x * 0.1f;
@@ -576,10 +524,7 @@ sensor:
     state_class: total_increasing
     filters:
       - lambda: |-
-          if (isnan(x)) {
-            return NAN;
-          }
-          if (x > 1e9f || x < -1e9f) {
+          if (x > 1000000000) {
             return NAN;
           }
           return x * 0.01f;
@@ -598,10 +543,7 @@ sensor:
     state_class: total_increasing
     filters:
       - lambda: |-
-          if (isnan(x)) {
-            return NAN;
-          }
-          if (x > 1e9f || x < -1e9f) {
+          if (x > 100000000) {
             return NAN;
           }
           return x * 0.1f;
@@ -620,10 +562,7 @@ sensor:
     state_class: total_increasing
     filters:
       - lambda: |-
-          if (isnan(x)) {
-            return NAN;
-          }
-          if (x > 1e9f || x < -1e9f) {
+          if (x > 1000000000) {
             return NAN;
           }
           return x * 0.01f;
@@ -642,10 +581,7 @@ sensor:
     state_class: total_increasing
     filters:
       - lambda: |-
-          if (isnan(x)) {
-            return NAN;
-          }
-          if (x > 1e9f || x < -1e9f) {
+          if (x > 100000000) {
             return NAN;
           }
           return x * 0.1f;
@@ -664,10 +600,7 @@ sensor:
     state_class: total_increasing
     filters:
       - lambda: |-
-          if (isnan(x)) {
-            return NAN;
-          }
-          if (x > 1e9f || x < -1e9f) {
+          if (x > 1000000000) {
             return NAN;
           }
           return x * 0.01f;
@@ -686,10 +619,7 @@ sensor:
     state_class: total_increasing
     filters:
       - lambda: |-
-          if (isnan(x)) {
-            return NAN;
-          }
-          if (x > 1e9f || x < -1e9f) {
+          if (x > 100000000) {
             return NAN;
           }
           return x * 0.1f;
